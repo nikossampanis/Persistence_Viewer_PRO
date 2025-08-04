@@ -1,0 +1,8 @@
+streamlit
+ripser
+persim
+numpy
+pandas
+matplotlib
+scipy
+plotly
