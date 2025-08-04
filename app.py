@@ -19,8 +19,15 @@ uploaded_file = None
 if dataset == "Upload CSV":
     uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type=["csv"])
 
+# Initialize radius in session state
+if 'radius' not in st.session_state:
+    st.session_state['radius'] = 0.05
+
+# Sidebar controls
 st.sidebar.markdown("---")
-radius_slider = st.sidebar.slider("Filtration Radius", 0.01, 1.0, 0.05, 0.01)
+radius_slider = st.sidebar.slider("Filtration Radius", 0.01, 1.0,
+                                   st.session_state['radius'], 0.01)
+st.session_state['radius'] = radius_slider  # update session
 autoplay = st.sidebar.checkbox("▶️ Auto-play")
 show_h0 = st.sidebar.checkbox("Show H₀ (Connected)", value=True)
 show_h1 = st.sidebar.checkbox("Show 🟠 H₁ (Loops)", value=True)
@@ -85,9 +92,9 @@ buf = io.BytesIO()
 fig2.savefig(buf, format="png")
 st.image(buf)
 
-# Autoplay
+# Auto-play animation
 if autoplay:
-    for r in np.arange(0.01, 1.0, 0.05):
-        st.sidebar.slider("Filtration Radius", 0.01, 1.0, r, 0.01, key="autoplay_slider")
-        time.sleep(0.5)
-        st.rerun()
+    for r in np.arange(0.01, 1.01, 0.05):
+        st.session_state['radius'] = r
+        time.sleep(0.4)
+        st.experimental_rerun()
