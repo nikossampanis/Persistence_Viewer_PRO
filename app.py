@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -77,11 +76,10 @@ rips = ripser(data, maxdim=2, thresh=2*radius_slider)
 dgms = rips['dgms']
 
 fig2, ax = plt.subplots()
-colors = ['blue', 'orange', 'green']
 labels = ['H₀', 'H₁', 'H₂']
 for i, dgm in enumerate(dgms):
     if (i == 0 and show_h0) or (i == 1 and show_h1) or (i == 2 and show_h2):
-        plot_diagrams([dgm], ax=ax, show=False, lifetime=True, xy_range=[0,1,0,1], colormap=colors[i])
+        plot_diagrams([dgm], ax=ax, show=False, lifetime=True, xy_range=[0,1,0,1])
 ax.set_title("Persistence Diagram")
 buf = io.BytesIO()
 fig2.savefig(buf, format="png")
